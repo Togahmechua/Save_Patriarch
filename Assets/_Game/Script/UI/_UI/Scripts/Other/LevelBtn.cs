@@ -22,7 +22,7 @@ public class LevelBtn : MonoBehaviour
 
     private void LoadLevel()
     {
-        //AudioManager.Ins.PlaySFX(AudioManager.Ins.click);
+        AudioManager.Ins.PlaySFX(AudioManager.Ins.click);
         UIManager.Ins.TransitionUI<ChangeUICanvas, ChooseLevelCanvas>(0.6f,
            () =>
            {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.028585413, g: 0.26476416, b: 0.42932585, a: 1}
+  m_IndirectSpecularColor: {r: 0.028229846, g: 0.26336995, b: 0.42573512, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1094,6 +1094,11 @@ MonoBehaviour:
   mapSO: {fileID: 11400000, guid: 45ea90f4990822747bf2bbf386e12079, type: 2}
   levelList:
   - {fileID: 6567698579941395017, guid: 8ceddb67f9cb0794da15bd36e4b8bc73, type: 3}
+  - {fileID: 4555512021282132257, guid: 5481eb0d399a2a846aa9213879532217, type: 3}
+  - {fileID: 901135934995839689, guid: 936ff66e1456a8749bb66d00f637d009, type: 3}
+  - {fileID: 5566721464182133541, guid: ed8d223c936c5284c811f68bfeab633c, type: 3}
+  - {fileID: 4267842640099747972, guid: 0a9e4f2fea2d6fe4c97d1127c96bdd11, type: 3}
+  - {fileID: 2325726943155633639, guid: 9a6f47fbfe514f248b4e1d17870d4e4f, type: 3}
   curMap: 0
   isWin: 0
   curMapID: 0
@@ -1301,9 +1306,13 @@ MonoBehaviour:
   musicSource: {fileID: 521617075}
   sfxSource: {fileID: 51342282}
   masterMixer: {fileID: 24100000, guid: ceea7dee3b4bd5741a0bbe3940511f57, type: 2}
-  backgroundClip: {fileID: 0}
-  click: {fileID: 0}
-  win: {fileID: 0}
+  backgroundClip: {fileID: 8300000, guid: c8d82f43b18f920449765de543228294, type: 3}
+  click: {fileID: 8300000, guid: cf9ca8ee6234ed2429e9befe453a0d70, type: 3}
+  win: {fileID: 8300000, guid: 57ee6410ef7d1f0448c4fbf6768d740a, type: 3}
+  shoot: {fileID: 8300000, guid: 4355057c75492014ba5e7688fd1c0a5b, type: 3}
+  cut: {fileID: 8300000, guid: ba2bee3805d7bff4bbdadda4651fb3e9, type: 3}
+  coin: {fileID: 8300000, guid: 1b93e5e68e4a2d44ea0776ecd61285a8, type: 3}
+  pain: {fileID: 0}
 --- !u!1 &1023624541
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,13 +14,24 @@ public class Level : MonoBehaviour
 
     public bool isTouch;
     private bool startedCountdown;
+    public List<Rope> ropes;
+
+    private void OnEnable()
+    {
+        Arrow.OnArrowDespawned += OnArrowDespawned;
+    }
+
+    private void OnDisable()
+    {
+        Arrow.OnArrowDespawned -= OnArrowDespawned;
+    }
+
 
     private void Start()
     {
         currentLevel = this;
         UIManager.Ins.mainCanvas.UpdateInfo(amountArrow, timer);
     }
-
 
     private void Update()
     {
@@ -60,11 +71,67 @@ public class Level : MonoBehaviour
         {
             amountArrow = 0;
             canShoot = false;
+            UIManager.Ins.mainCanvas.UpdateArrow(amountArrow);
+
             Debug.Log("Run Out Of Arrow");
-            // Có thể xử lý thua tại đây nếu cần
+            StartCoroutine(LoseAfterDelay(2f));
+            return;
         }
 
-        UIManager.Ins.mainCanvas.UpdateInfo(amountArrow, timer);
+        UIManager.Ins.mainCanvas.UpdateArrow(amountArrow);
+    }
+
+    private IEnumerator LoseAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        UIManager.Ins.CloseUI<MainCanvas>();
+        // Chỉ xử lý thua nếu chưa thắng
+        if (!LevelManager.Ins.isWin)
+        {
+            Debug.Log("Lose: Out of arrows and not won after delay!");
+            // TODO: Mở UI thua nếu cần, ví dụ:
+            yield return new WaitForSeconds(2f);
+            UIManager.Ins.OpenUI<LooseCanvas>();
+        }
+    }
+
+    private void OnArrowDespawned(Arrow arrow)
+    {
+        // Sau mỗi lần mũi tên biến mất, kiểm tra nếu tất cả dây đã bị cắt
+        bool allCut = true;
+        foreach (var rope in ropes)
+        {
+            if (!rope.isCutted)
+            {
+                allCut = false;
+                break;
+            }
+        }
+
+        if (allCut && !LevelManager.Ins.isWin)
+        {
+            LevelManager.Ins.isWin = true;
+            Debug.Log("Win: All ropes cut!");
+            // TODO: Mở UI Win nếu cần
+            StartCoroutine(IEWait());
+        }
+    }
+
+    private IEnumerator IEWait()
+    {
+        UIManager.Ins.CloseUI<MainCanvas>();
+
+        yield return new WaitForSeconds(2f);
+        UIManager.Ins.OpenUI<WinCanvas>();
+    }
+
+    public void OutOfArrowDueToTimeout()
+    {
+        amountArrow = 0;
+        canShoot = false;
+        UIManager.Ins.mainCanvas.UpdateArrow(amountArrow);
+        Debug.Log("Run Out Of Arrow (Timeout)");
+        StartCoroutine(LoseAfterDelay(2f));
     }
 
 }

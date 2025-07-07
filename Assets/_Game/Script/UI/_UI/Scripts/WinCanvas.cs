@@ -24,7 +24,7 @@ public class WinCanvas : UICanvas
 
     private void OnEnable()
     {
-        //AudioManager.Ins.PlaySFX(AudioManager.Ins.win);
+        AudioManager.Ins.PlaySFX(AudioManager.Ins.win);
         Display();
     }
 
@@ -79,7 +79,7 @@ public class WinCanvas : UICanvas
         if (!flag)
             return;
         flag = false;
-        //AudioManager.Ins.PlaySFX(AudioManager.Ins.coin);
+        AudioManager.Ins.PlaySFX(AudioManager.Ins.coin);
     }
 
     public void Home()
@@ -100,6 +100,8 @@ public class WinCanvas : UICanvas
             () =>
             {
                 Debug.Log("Win");
+                LevelManager.Ins.DespawnMap();
+                UIManager.Ins.OpenUI<ChooseLevelCanvas>();
             }
         );
     }

@@ -1,7 +1,5 @@
-﻿// Arrow.cs
-using System;
+﻿using System;
 using System.Collections;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class Arrow : MonoBehaviour
@@ -11,6 +9,8 @@ public class Arrow : MonoBehaviour
     public GameObject owner;
 
     private Coroutine despawnCoroutine;
+
+    public static event Action<Arrow> OnArrowDespawned;
 
     private void Start()
     {
@@ -43,6 +43,8 @@ public class Arrow : MonoBehaviour
 
         if (other.CompareTag("Body"))
         {
+            AudioManager.Ins.PlaySFX(AudioManager.Ins.pain);
+
             hasHit = true;
             rb.isKinematic = true;
             GetComponent<Collider>().enabled = false;
@@ -50,7 +52,15 @@ public class Arrow : MonoBehaviour
             StopDespawnTimer();
 
             Debug.Log("Minus time");
+
+            // ✅ Trừ từ thời gian hiện tại chứ không phải timer ban đầu
+            int curTime = UIManager.Ins.mainCanvas.CurrentTime;
+            UIManager.Ins.mainCanvas.DecreaseTime(5);
+
+            StartCoroutine(IEDespawn(1f));
+            return;
         }
+
 
         Rope rope = Cache.GetRope(other);
         if (rope != null)
@@ -92,6 +102,7 @@ public class Arrow : MonoBehaviour
 
     private void DespawnNow()
     {
+        OnArrowDespawned?.Invoke(this);
         Destroy(gameObject);
     }
 }

@@ -48,6 +48,7 @@ public class Bow : MonoBehaviour
     public void Shoot(Vector3 direction, float launchForce, GameObject owner)
     {
         if (!Level.currentLevel.canShoot) return;
+        AudioManager.Ins.PlaySFX(AudioManager.Ins.shoot);
 
         GameObject arrow = Instantiate(arrowPrefab, shootPoint.position, Quaternion.identity);
 
@@ -60,6 +61,7 @@ public class Bow : MonoBehaviour
 
         // Trừ đạn NGAY KHI BẮN
         Level.currentLevel.DecreaseArrow();
+        UIManager.Ins.mainCanvas.StartCountdown();
     }
 
 

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,13 +12,20 @@ public class MainCanvas : UICanvas
     private int currentTime;
     private bool isCounting = false;
 
+    public int CurrentTime => currentTime;
+
+    private void OnEnable()
+    {
+        isCounting = false;
+    }
+
     private void Start()
     {
         UIManager.Ins.mainCanvas = this;
 
         pauseBtn.onClick.AddListener(() =>
         {
-            //AudioManager.Ins.PlaySFX(AudioManager.Ins.click);
+            AudioManager.Ins.PlaySFX(AudioManager.Ins.click);
             UIManager.Ins.OpenUI<PauseCanvas>();
             UIManager.Ins.CloseUI<MainCanvas>();
         });
@@ -26,9 +33,9 @@ public class MainCanvas : UICanvas
 
     public void UpdateInfo(int amountArrow, int time)
     {
-        arrowTxt.text = amountArrow.ToString();
-        timer.text = FormatTime(time);
         currentTime = time;
+        UpdateArrow(amountArrow);
+        UpdateTimer(currentTime);
     }
 
     public void StartCountdown()
@@ -47,12 +54,46 @@ public class MainCanvas : UICanvas
         {
             yield return new WaitForSeconds(1f);
             currentTime--;
-            timer.text = FormatTime(currentTime);
+            UpdateTimer(currentTime);
         }
 
         isCounting = false;
 
-        Debug.Log("Lose: Time's up!");
+        // ✅ Khi hết giờ, giả lập "hết đạn"
+        if (!LevelManager.Ins.isWin)
+        {
+            LevelManager.Ins.level.OutOfArrowDueToTimeout();
+        }
+    }
+
+    public void DecreaseTime(int amount)
+    {
+        currentTime -= amount;
+        if (currentTime <= 0)
+        {
+            currentTime = 0;
+            UpdateTimer(currentTime);
+
+            // ✅ Khi thời gian <= 0, giả lập hết đạn
+            if (!LevelManager.Ins.isWin)
+            {
+                LevelManager.Ins.level.OutOfArrowDueToTimeout();
+            }
+        }
+        else
+        {
+            UpdateTimer(currentTime);
+        }
+    }
+
+    public void UpdateArrow(int amountArrow)
+    {
+        arrowTxt.text = amountArrow.ToString();
+    }
+
+    public void UpdateTimer(int time)
+    {
+        timer.text = FormatTime(time);
     }
 
     private string FormatTime(int totalSeconds)

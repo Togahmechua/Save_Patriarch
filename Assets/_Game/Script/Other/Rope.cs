@@ -9,6 +9,8 @@ public class Rope : MonoBehaviour
     private Rigidbody rb;
     private CapsuleCollider col;
 
+    public bool isCutted;
+
     private void Start()
     {
         rb = player.transform.GetComponent<Rigidbody>();
@@ -17,8 +19,11 @@ public class Rope : MonoBehaviour
 
     public void BeDestroyed()
     {
+        AudioManager.Ins.PlaySFX(AudioManager.Ins.cut);
+
+        isCutted = true;
         rb.useGravity = true;
         col.enabled = false;
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 }

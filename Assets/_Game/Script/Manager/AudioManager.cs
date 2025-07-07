@@ -14,6 +14,10 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip backgroundClip;
     public AudioClip click;
     public AudioClip win;
+    public AudioClip shoot;
+    public AudioClip cut;
+    public AudioClip coin;
+    public AudioClip pain;
 
     private bool isMuted;
 
@@ -21,9 +25,9 @@ public class AudioManager : Singleton<AudioManager>
 
     private void Start()
     {
-       /* musicSource.clip = backgroundClip;
+        musicSource.clip = backgroundClip;
         musicSource.Play();
-        TurnOn();*/
+        TurnOn();
     }
 
     public void PlaySFX(AudioClip clip)

@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour, IPointerDownHandler, IDragHandler
     #region Drag Control
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (LevelManager.Ins.isWin)
+            return;
+
         LevelManager.Ins.level.isTouch = true;
         startDragPos = Camera.main.ScreenToWorldPoint(eventData.position);
     }
